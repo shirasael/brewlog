@@ -12,13 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Set up Docker Compose
+      - name: Build and test backend
         run: |
-          docker-compose --version
-          docker --version
+          docker build -t backend-tests ./backend
+          docker run --rm backend-tests sh -c "pip install flake8 black isort && flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics && black --check . && isort --check-only --diff . && pytest -v"
       
-      - name: Run tests
+      - name: Build and test frontend
         run: |
-          docker-compose build
-          docker-compose run --rm backend
-          docker-compose run -e CI=true --rm frontend
+          docker build -t frontend-tests ./frontend
+          docker run --rm -e CI=true frontend-tests
