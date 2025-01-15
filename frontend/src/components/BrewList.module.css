@@ -1,0 +1,34 @@
+.brewList {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+@media (max-width: 840px) {
+    .brewList {
+        padding: 20px 16px;
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+.emptyState {
+    text-align: center;
+    padding: 48px;
+    color: #7F8C8D;
+}
+
+.emptyStateIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.emptyStateText {
+    font-size: 18px;
+    margin: 0;
+} 

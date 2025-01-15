@@ -1,0 +1,31 @@
+:root {
+  /* Primary Colors */
+  --color-primary: #6F4E37;     /* Rich coffee brown */
+  --color-primary-light: #9B7653; /* Lighter coffee brown */
+  --color-primary-dark: #3C2A21;  /* Dark roast brown */
+
+  /* Secondary Colors */
+  --color-secondary: #D4B59E;   /* Creamy latte */
+  --color-secondary-light: #E6D5C7; /* Light cream */
+  --color-secondary-dark: #8B7355; /* Mocha */
+
+  /* Accent Colors */
+  --color-accent: #C17817;      /* Caramel orange */
+  --color-success: #43A047;     /* Fresh green */
+  --color-error: #D32F2F;       /* Berry red */
+
+  /* Neutral Colors */
+  --color-background: #FAF3E0;  /* Warm paper white */
+  --color-surface: #FFFFFF;     /* Pure white */
+  --color-text: #1A1110;        /* Deep coffee */
+  --color-text-light: #4A4A4A;  /* Soft black */
+  --color-border: #E0D3C1;      /* Soft cream border */
+
+  /* Overlay Colors */
+  --color-overlay: rgba(26, 17, 16, 0.5); /* Semi-transparent overlay */
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+} 

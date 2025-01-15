@@ -1,0 +1,256 @@
+.addBrewForm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  backdrop-filter: blur(4px);
+}
+
+.form {
+  background-color: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.form h2 {
+  margin: 0 0 24px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.input,
+.textarea,
+.timePicker {
+  padding: 10px 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  background: #ffffff;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Specific styles for select input */
+select.input {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+select.input:hover {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+}
+
+select.input option {
+  color: #1a1a1a;
+  padding: 12px;
+  font-size: 0.9375rem;
+  background: #ffffff;
+}
+
+select.input option:first-child {
+  color: #666;
+  font-style: italic;
+}
+
+select.input option:hover,
+select.input option:focus,
+select.input option:active {
+  background: #f8f9fa;
+  color: #1a1a1a;
+}
+
+.input:focus,
+.textarea:focus,
+.timePicker:focus {
+  outline: none;
+  border-color: #1a1a1a;
+  box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.imageInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.helperText {
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 400;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  flex: 1;
+  transition: all 0.2s ease;
+}
+
+.submitButton {
+  composes: button;
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.submitButton:hover {
+  background-color: #333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cancelButton {
+  composes: button;
+  background-color: #f1f3f5;
+  color: #666;
+}
+
+.cancelButton:hover {
+  background-color: #e9ecef;
+  color: #1a1a1a;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 480px) {
+  .form {
+    padding: 24px;
+    border-radius: 8px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+.input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+}
+
+/* MUI TimePicker styles */
+.input :global(.MuiOutlinedInput-root) {
+    background-color: white;
+    width: 100%;
+}
+
+.input :global(.MuiOutlinedInput-root fieldset) {
+    border-color: #e0e0e0;
+}
+
+.input :global(.MuiOutlinedInput-root:hover fieldset) {
+    border-color: #bdbdbd;
+}
+
+.input :global(.MuiOutlinedInput-root.Mui-focused fieldset) {
+    border-color: #1976d2;
+}
+
+.timeInput {
+    position: relative;
+    width: 100%;
+}
+
+.timePickerContainer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 4px;
+    padding: 12px;
+    z-index: 1000;
+    display: none;
+}
+
+.timePickerContainer button {
+    margin: 8px;
+    width: calc(100% - 16px);
+    padding: 8px;
+    font-size: 0.875rem;
+}
+
+.timePickerContainer button:hover {
+    transform: none;
+}
+
+.doneButton {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    color: #1a1a1a;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.doneButton:hover {
+    background: #e9ecef;
+}
+
+.timePickerContainer.show {
+    display: block;
+}
+
+/* Remove the conflicting focus rule */
+/* .timeInput:focus-within .timePickerContainer {
+    display: block;
+} */ 
