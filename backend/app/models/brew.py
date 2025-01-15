@@ -5,8 +5,10 @@ This module defines the database schema for storing brew information including
 parameters, timing, and optional details.
 """
 
-from sqlalchemy import Column, Integer, String, Float, DateTime, func
+from sqlalchemy import Column, DateTime, Float, Integer, String, func
+
 from app.core.database import Base
+
 
 class Brew(Base):
     """A database model representing a coffee brewing record.
@@ -40,6 +42,7 @@ class Brew(Base):
     :ivar updated_at: Timestamp of last update (optional)
     :type updated_at: datetime or None
     """
+
     __tablename__ = "brews"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -53,4 +56,4 @@ class Brew(Base):
     details = Column(String, nullable=True)
     image_url = Column(String, nullable=True)
     created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, nullable=True, onupdate=func.now()) 
+    updated_at = Column(DateTime, nullable=True, onupdate=func.now())

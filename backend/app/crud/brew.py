@@ -4,14 +4,17 @@ This module provides database operations for creating, reading,
 updating, and deleting brew records using SQLAlchemy ORM.
 """
 
-from sqlalchemy.orm import Session
 from typing import List, Optional
+
+from sqlalchemy.orm import Session
+
 from app.models.brew import Brew
 from app.schemas.brew import BrewCreate
 
+
 def get_brew(db: Session, brew_id: int) -> Optional[Brew]:
     """Retrieve a single brew record by ID.
-    
+
     :param db: Database session
     :type db: Session
     :param brew_id: ID of the brew to retrieve
@@ -21,11 +24,12 @@ def get_brew(db: Session, brew_id: int) -> Optional[Brew]:
     """
     return db.query(Brew).filter(Brew.id == brew_id).first()
 
+
 def get_brews(db: Session, skip: int = 0, limit: int = 100) -> List[Brew]:
     """Retrieve a list of brew records with pagination.
-    
+
     Results are ordered by creation date in descending order.
-    
+
     :param db: Database session
     :type db: Session
     :param skip: Number of records to skip
@@ -35,11 +39,14 @@ def get_brews(db: Session, skip: int = 0, limit: int = 100) -> List[Brew]:
     :return: List of brew records
     :rtype: List[Brew]
     """
-    return db.query(Brew).order_by(Brew.created_at.desc()).offset(skip).limit(limit).all()
+    return (
+        db.query(Brew).order_by(Brew.created_at.desc()).offset(skip).limit(limit).all()
+    )
+
 
 def create_brew(db: Session, brew: BrewCreate) -> Brew:
     """Create a new brew record.
-    
+
     :param db: Database session
     :type db: Session
     :param brew: Brew data to create
@@ -53,9 +60,10 @@ def create_brew(db: Session, brew: BrewCreate) -> Brew:
     db.refresh(db_brew)
     return db_brew
 
+
 def delete_brew(db: Session, brew_id: int) -> bool:
     """Delete a brew record by ID.
-    
+
     :param db: Database session
     :type db: Session
     :param brew_id: ID of the brew to delete
@@ -70,9 +78,10 @@ def delete_brew(db: Session, brew_id: int) -> bool:
         return True
     return False
 
+
 def update_brew(db: Session, brew_id: int, brew: BrewCreate) -> Optional[Brew]:
     """Update an existing brew record.
-    
+
     :param db: Database session
     :type db: Session
     :param brew_id: ID of the brew to update
@@ -89,4 +98,4 @@ def update_brew(db: Session, brew_id: int, brew: BrewCreate) -> Optional[Brew]:
         db.commit()
         db.refresh(db_brew)
         return db_brew
-    return None 
+    return None

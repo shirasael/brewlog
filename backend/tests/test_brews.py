@@ -1,7 +1,10 @@
+from datetime import datetime, timezone
+
 import pytest
 from fastapi.testclient import TestClient
+
 from app.models.brew import Brew
-from datetime import datetime, timezone
+
 
 def test_create_brew(client: TestClient, mock_db):
     brew_data = {
@@ -12,21 +15,23 @@ def test_create_brew(client: TestClient, mock_db):
         "weight_out": 270,
         "brew_time": "03:00",
         "bloom_time": 30,
-        "details": "Medium-fine grind"
+        "details": "Medium-fine grind",
     }
-    
+
     # Configure mock to store the created brew
     created_brew = None
+
     def mock_add(brew):
         nonlocal created_brew
         created_brew = brew
         return None
+
     mock_db.add.side_effect = mock_add
-    
+
     response = client.post("/api/v1/brews/", json=brew_data)
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["bean_type"] == brew_data["bean_type"]
     assert data["brew_type"] == brew_data["brew_type"]
     assert data["water_temp"] == brew_data["water_temp"]
@@ -37,24 +42,25 @@ def test_create_brew(client: TestClient, mock_db):
     assert data["details"] == brew_data["details"]
     assert data["id"] == 1
     assert "created_at" in data
-    
+
     mock_db.add.assert_called_once()
     mock_db.commit.assert_called_once()
     mock_db.refresh.assert_called_once()
+
 
 def test_read_brews(client: TestClient, mock_db):
     brews = [
         Brew(
             id=1,
             bean_type="Colombian",
-            brew_type="Espresso", 
+            brew_type="Espresso",
             water_temp=93.0,
             weight_in=18,
             weight_out=36,
             brew_time="00:25",
             bloom_time=0,
             details="Fine grind",
-            created_at=datetime.now(timezone.utc)
+            created_at=datetime.now(timezone.utc),
         ),
         Brew(
             id=2,
@@ -66,7 +72,7 @@ def test_read_brews(client: TestClient, mock_db):
             brew_time="03:00",
             bloom_time=30,
             details="Medium grind",
-            created_at=datetime.now(timezone.utc)
+            created_at=datetime.now(timezone.utc),
         ),
         Brew(
             id=3,
@@ -78,22 +84,22 @@ def test_read_brews(client: TestClient, mock_db):
             brew_time="04:00",
             bloom_time=0,
             details="Coarse grind",
-            created_at=datetime.now(timezone.utc)
-        )
+            created_at=datetime.now(timezone.utc),
+        ),
     ]
     # Mock the chained query methods
     mock_query = mock_db.query.return_value
     mock_query.offset.return_value = mock_query
     mock_query.limit.return_value = mock_query
     mock_query.all.return_value = brews
-    
+
     response = client.get("/api/v1/brews/")
     assert response.status_code == 200
     data = response.json()
-    
+
     assert len(data) == 3
     assert isinstance(data, list)
-    
+
     # Validate all brews
     for i, brew in enumerate(reversed(brews)):
         assert data[i]["id"] == brew.id
@@ -107,6 +113,7 @@ def test_read_brews(client: TestClient, mock_db):
         assert data[i]["details"] == brew.details
         assert "created_at" in data[i]
 
+
 def test_read_brew(client: TestClient, mock_db):
     brew = Brew(
         id=1,
@@ -118,14 +125,14 @@ def test_read_brew(client: TestClient, mock_db):
         brew_time="00:25",
         bloom_time=0,
         details="Fine grind",
-        created_at=datetime.now(timezone.utc)
+        created_at=datetime.now(timezone.utc),
     )
     mock_db.query.return_value.filter.return_value.first.return_value = brew
-    
+
     response = client.get("/api/v1/brews/1")
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["bean_type"] == brew.bean_type
     assert data["brew_type"] == brew.brew_type
     assert data["water_temp"] == brew.water_temp
@@ -135,12 +142,14 @@ def test_read_brew(client: TestClient, mock_db):
     assert data["bloom_time"] == brew.bloom_time
     assert data["details"] == brew.details
 
+
 def test_read_nonexistent_brew(client: TestClient, mock_db):
     mock_db.query.return_value.filter.return_value.first.return_value = None
-    
+
     response = client.get("/api/v1/brews/999")
     assert response.status_code == 404
     assert response.json()["detail"] == "Brew not found"
+
 
 def test_update_brew(client: TestClient, mock_db):
     existing_brew = Brew(
@@ -153,10 +162,10 @@ def test_update_brew(client: TestClient, mock_db):
         brew_time="00:25",
         bloom_time=0,
         details="Fine grind",
-        created_at=datetime.now(timezone.utc)
+        created_at=datetime.now(timezone.utc),
     )
     mock_db.query.return_value.filter.return_value.first.return_value = existing_brew
-    
+
     update_data = {
         "bean_type": "Ethiopian",
         "brew_type": "Espresso",
@@ -165,13 +174,13 @@ def test_update_brew(client: TestClient, mock_db):
         "weight_out": 36,
         "brew_time": "00:25",
         "bloom_time": 0,
-        "details": "Updated grind size"
+        "details": "Updated grind size",
     }
-    
+
     response = client.put("/api/v1/brews/1", json=update_data)
     assert response.status_code == 200
     data = response.json()
-    
+
     assert data["bean_type"] == update_data["bean_type"]
     assert data["water_temp"] == update_data["water_temp"]
     assert data["details"] == update_data["details"]
@@ -181,22 +190,21 @@ def test_update_brew(client: TestClient, mock_db):
     assert data["weight_out"] == existing_brew.weight_out
     assert data["brew_time"] == existing_brew.brew_time
     assert data["bloom_time"] == existing_brew.bloom_time
-    
+
     mock_db.commit.assert_called_once()
 
+
 def test_delete_brew(client: TestClient, mock_db):
-    existing_brew = Brew(
-        id=1,
-        created_at=datetime.now(timezone.utc)
-    )
+    existing_brew = Brew(id=1, created_at=datetime.now(timezone.utc))
     mock_db.query.return_value.filter.return_value.first.return_value = existing_brew
-    
+
     response = client.delete("/api/v1/brews/1")
     assert response.status_code == 200
     assert response.json() == {"message": "Brew deleted successfully"}
-    
+
     mock_db.delete.assert_called_once_with(existing_brew)
     mock_db.commit.assert_called_once()
+
 
 def test_create_brew_invalid_data(client: TestClient, mock_db):
     brew_data = {
@@ -207,11 +215,11 @@ def test_create_brew_invalid_data(client: TestClient, mock_db):
         "weight_out": 270,
         "brew_time": "03:00",
         "bloom_time": 30,
-        "details": "Medium-fine grind"
+        "details": "Medium-fine grind",
     }
-    
+
     response = client.post("/api/v1/brews/", json=brew_data)
     assert response.status_code == 422
-    
+
     mock_db.add.assert_not_called()
-    mock_db.commit.assert_not_called() 
+    mock_db.commit.assert_not_called()

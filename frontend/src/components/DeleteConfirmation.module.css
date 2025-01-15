@@ -1,67 +1,67 @@
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .dialog {
-    background: white;
-    border-radius: 8px;
-    padding: 24px;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .title {
-    margin: 0 0 16px 0;
-    color: #1a1a1a;
-    font-size: 1.25rem;
+  margin: 0 0 16px 0;
+  color: #1a1a1a;
+  font-size: 1.25rem;
 }
 
 .message {
-    margin: 0 0 24px 0;
-    color: #666;
-    line-height: 1.5;
+  margin: 0 0 24px 0;
+  color: #666;
+  line-height: 1.5;
 }
 
 .buttons {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
 }
 
 .cancelButton {
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    background: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.875rem;
-    color: #666;
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #666;
 }
 
 .deleteButton {
-    padding: 8px 16px;
-    border: none;
-    background: #ff4444;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.875rem;
+  padding: 8px 16px;
+  border: none;
+  background: #ff4444;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
 }
 
 .cancelButton:hover {
-    background: #f8f9fa;
+  background: #f8f9fa;
 }
 
 .deleteButton:hover {
-    background: #ff2020;
-} 
+  background: #ff2020;
+}

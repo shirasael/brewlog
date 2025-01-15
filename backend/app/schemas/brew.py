@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional
 from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
+
 
 class BrewBase(BaseModel):
     bean_type: str
@@ -13,12 +15,14 @@ class BrewBase(BaseModel):
     details: Optional[str] = None
     image_url: Optional[str] = None
 
+
 class BrewCreate(BrewBase):
     pass
+
 
 class Brew(BrewBase):
     id: int
     created_at: datetime
     updated_at: Optional[datetime] = None
 
-    model_config = ConfigDict(from_attributes=True) 
+    model_config = ConfigDict(from_attributes=True)

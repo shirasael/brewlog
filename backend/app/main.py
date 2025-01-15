@@ -10,6 +10,7 @@ The application provides a RESTful API for managing coffee brewing records.
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.v1.endpoints import brews
 from app.core.config import settings
 from app.core.database import engine
@@ -22,7 +23,7 @@ brew_model.Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Coffee Brewing API",
     description="API for tracking coffee brewing parameters and recipes",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Configure CORS middleware to allow frontend communication
@@ -35,4 +36,4 @@ app.add_middleware(
 )
 
 # Register API routes with version prefix
-app.include_router(brews.router, prefix=settings.API_V1_STR) 
+app.include_router(brews.router, prefix=settings.API_V1_STR)

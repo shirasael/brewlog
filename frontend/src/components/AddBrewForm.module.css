@@ -172,85 +172,85 @@ select.input option:active {
 }
 
 .input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: white;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
 }
 
 /* MUI TimePicker styles */
 .input :global(.MuiOutlinedInput-root) {
-    background-color: white;
-    width: 100%;
+  background-color: white;
+  width: 100%;
 }
 
 .input :global(.MuiOutlinedInput-root fieldset) {
-    border-color: #e0e0e0;
+  border-color: #e0e0e0;
 }
 
 .input :global(.MuiOutlinedInput-root:hover fieldset) {
-    border-color: #bdbdbd;
+  border-color: #bdbdbd;
 }
 
 .input :global(.MuiOutlinedInput-root.Mui-focused fieldset) {
-    border-color: #1976d2;
+  border-color: #1976d2;
 }
 
 .timeInput {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .timePickerContainer {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #e9ecef;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 4px;
-    padding: 12px;
-    z-index: 1000;
-    display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 4px;
+  padding: 12px;
+  z-index: 1000;
+  display: none;
 }
 
 .timePickerContainer button {
-    margin: 8px;
-    width: calc(100% - 16px);
-    padding: 8px;
-    font-size: 0.875rem;
+  margin: 8px;
+  width: calc(100% - 16px);
+  padding: 8px;
+  font-size: 0.875rem;
 }
 
 .timePickerContainer button:hover {
-    transform: none;
+  transform: none;
 }
 
 .doneButton {
-    width: 100%;
-    padding: 8px;
-    margin-top: 8px;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 4px;
-    color: #1a1a1a;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  color: #1a1a1a;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .doneButton:hover {
-    background: #e9ecef;
+  background: #e9ecef;
 }
 
 .timePickerContainer.show {
-    display: block;
+  display: block;
 }
 
 /* Remove the conflicting focus rule */
 /* .timeInput:focus-within .timePickerContainer {
     display: block;
-} */ 
+} */
