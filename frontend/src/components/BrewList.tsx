@@ -3,11 +3,22 @@ import BrewItem from './BrewItem';
 import styles from './BrewList.module.css';
 import { type Brew } from '../services/api';
 
+/**
+ * Props interface for the BrewList component.
+ * @interface BrewListProps
+ * @property {Brew[]} brews - Array of brew entries to display
+ * @property {Function} onDeleteBrew - Callback function to handle brew deletion
+ */
 interface BrewListProps {
     brews: Brew[];
     onDeleteBrew: (id: number) => void;
 }
 
+/**
+ * Displays a list of brew entries or an empty state message.
+ * Renders individual BrewItem components for each brew in the list.
+ * @component
+ */
 const BrewList: React.FC<BrewListProps> = ({ brews, onDeleteBrew }) => {
     if (brews.length === 0) {
         return (

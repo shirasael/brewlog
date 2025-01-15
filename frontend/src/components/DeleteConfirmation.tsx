@@ -1,12 +1,34 @@
 import React from 'react';
 import styles from './DeleteConfirmation.module.css';
 
+/**
+ * Props interface for the DeleteConfirmation component.
+ * @interface DeleteConfirmationProps
+ * @property {Function} onConfirm - Callback function to execute when deletion is confirmed
+ * @property {Function} onCancel - Callback function to execute when deletion is cancelled
+ * @property {string} beanType - Type of coffee beans for the brew being deleted
+ */
 interface DeleteConfirmationProps {
     onConfirm: () => void;
     onCancel: () => void;
     beanType: string;
 }
 
+/**
+ * Modal dialog component for confirming brew deletion.
+ * Displays a confirmation message with the brew's bean type and
+ * provides options to confirm or cancel the deletion.
+ * 
+ * @component
+ * @example
+ * ```tsx
+ * <DeleteConfirmation
+ *   beanType="Ethiopian Yirgacheffe"
+ *   onConfirm={() => handleDelete(id)}
+ *   onCancel={() => setShowConfirmation(false)}
+ * />
+ * ```
+ */
 const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({
     onConfirm,
     onCancel,

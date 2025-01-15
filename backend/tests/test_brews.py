@@ -95,7 +95,7 @@ def test_read_brews(client: TestClient, mock_db):
     assert isinstance(data, list)
     
     # Validate all brews
-    for i, brew in enumerate(brews):
+    for i, brew in enumerate(reversed(brews)):
         assert data[i]["id"] == brew.id
         assert data[i]["bean_type"] == brew.bean_type
         assert data[i]["brew_type"] == brew.brew_type

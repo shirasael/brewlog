@@ -6,11 +6,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MultiSectionDigitalClock } from '@mui/x-date-pickers/MultiSectionDigitalClock';
 import dayjs from 'dayjs';
 
+/**
+ * Props interface for the AddBrewForm component
+ * @interface AddBrewFormProps
+ * @property {Function} onClose - Callback to close the form modal
+ * @property {Function} onAddBrew - Callback to handle new brew submission
+ */
 interface AddBrewFormProps {
     onClose: () => void;
     onAddBrew: (brew: NewBrew) => void;
 }
 
+/**
+ * Form component for adding new brew records
+ * Provides a comprehensive interface for inputting all brewing parameters
+ * including image upload and custom brew methods.
+ * @component
+ */
 export function AddBrewForm({ onClose, onAddBrew }: AddBrewFormProps) {
     const [beanType, setBeanType] = useState('');
     const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -26,6 +38,10 @@ export function AddBrewForm({ onClose, onAddBrew }: AddBrewFormProps) {
     const timePickerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        /**
+         * Handles clicks outside the time picker to close it
+         * @param event - Mouse event from the click
+         */
         function handleClickOutside(event: MouseEvent) {
             if (timePickerRef.current && !timePickerRef.current.contains(event.target as Node)) {
                 setIsTimePickerOpen(false);
@@ -38,6 +54,11 @@ export function AddBrewForm({ onClose, onAddBrew }: AddBrewFormProps) {
         };
     }, []);
 
+    /**
+     * Handles form submission by formatting and validating the data
+     * before calling the onAddBrew callback
+     * @param e - Form submission event
+     */
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const formattedBrewTime = brewTime ? 
@@ -58,6 +79,10 @@ export function AddBrewForm({ onClose, onAddBrew }: AddBrewFormProps) {
         onAddBrew(newBrew);
     };
 
+    /**
+     * Handles image file upload by converting to base64 URL
+     * @param e - File input change event
+     */
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {

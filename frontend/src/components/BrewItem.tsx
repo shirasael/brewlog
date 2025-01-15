@@ -2,6 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './BrewItem.module.css';
 import DeleteConfirmation from './DeleteConfirmation';
 
+/**
+ * Props interface for the BrewItem component.
+ * @interface BrewItemProps
+ * @property {number} id - Unique identifier for the brew
+ * @property {string} beanType - Type/origin of coffee beans used
+ * @property {string | null} imageUrl - Optional URL for brew image
+ * @property {string} brewType - Method of brewing (e.g., 'Pour Over', 'Espresso')
+ * @property {number} waterTemp - Water temperature in Celsius
+ * @property {number} weightIn - Input coffee weight in grams
+ * @property {number} weightOut - Output coffee weight in grams
+ * @property {string} brewTime - Total brewing time
+ * @property {number} bloomTime - Coffee bloom time in seconds
+ * @property {string} [details] - Optional additional brewing notes
+ * @property {Function} onDelete - Callback function for brew deletion
+ */
 interface BrewItemProps {
     id: number;
     beanType: string;
@@ -16,7 +31,9 @@ interface BrewItemProps {
     onDelete: (id: number) => void;
 }
 
-// Sample coffee bag images for different origins
+/**
+ * Default coffee bean images mapped by origin
+ */
 const defaultImages: { [key: string]: string } = {
     'Ethiopian': 'https://images.unsplash.com/photo-1610632380989-680fe40816c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
     'Colombian': 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80',
@@ -24,6 +41,11 @@ const defaultImages: { [key: string]: string } = {
     'default': 'https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80'
 };
 
+/**
+ * Component for displaying individual brew records with swipe-to-delete functionality.
+ * Includes brew details, image, and interactive delete confirmation.
+ * @component
+ */
 const BrewItem: React.FC<BrewItemProps> = ({ 
     id,
     beanType, 
@@ -43,44 +65,61 @@ const BrewItem: React.FC<BrewItemProps> = ({
     const itemRef = useRef<HTMLDivElement>(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+    /**
+     * Handles the start of a touch event for swipe functionality
+     */
     const handleTouchStart = (e: React.TouchEvent) => {
         setStartX(e.touches[0].clientX);
         setIsSwiping(true);
     };
 
+    /**
+     * Handles touch movement for swipe animation
+     * Limits swipe distance to -100px
+     */
     const handleTouchMove = (e: React.TouchEvent) => {
         if (!startX) return;
         const diff = startX - e.touches[0].clientX;
-        const newX = Math.min(Math.max(-diff, -100), 0); // Limit swipe to -100px
+        const newX = Math.min(Math.max(-diff, -100), 0);
         setCurrentX(newX);
     };
 
+    /** Initiates the delete confirmation dialog */
     const handleDelete = () => {
         setShowDeleteConfirm(true);
     };
 
+    /** Confirms and executes brew deletion */
     const handleConfirmDelete = () => {
         onDelete(id);
         setShowDeleteConfirm(false);
         setCurrentX(0);
     };
 
+    /** Cancels the delete operation */
     const handleCancelDelete = () => {
         setShowDeleteConfirm(false);
         setCurrentX(0);
     };
 
+    /**
+     * Handles the end of a touch event
+     * Shows delete confirmation if swiped more than 50px
+     */
     const handleTouchEnd = () => {
-        if (currentX < -50) { // If swiped more than 50px, show delete confirmation
+        if (currentX < -50) {
             setShowDeleteConfirm(true);
         } else {
-            setCurrentX(0); // Reset position
+            setCurrentX(0);
         }
         setStartX(null);
         setIsSwiping(false);
     };
 
     useEffect(() => {
+        /**
+         * Handles clicks outside the brew item to reset swipe state
+         */
         const handleClickOutside = (e: MouseEvent) => {
             if (isSwiping && itemRef.current && !itemRef.current.contains(e.target as Node)) {
                 setCurrentX(0);
@@ -92,6 +131,11 @@ const BrewItem: React.FC<BrewItemProps> = ({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isSwiping]);
 
+    /**
+     * Formats time values to include 's' suffix if needed
+     * @param time - Time value to format
+     * @returns Formatted time string
+     */
     const formatTime = (time: string | number) => {
         const timeStr = time.toString();
         if (timeStr.includes(':') || timeStr.includes('s') || timeStr === 'N/A') {
@@ -100,12 +144,15 @@ const BrewItem: React.FC<BrewItemProps> = ({
         return `${timeStr}s`;
     };
 
-    // Choose image based on bean type or use provided URL
+    /**
+     * Selects appropriate image based on bean type or provided URL
+     * Falls back to default image if no matches found
+     * @returns URL of the selected image
+     */
     const getImage = () => {
         if (imageUrl && !imageUrl.includes('placeholder')) {
             return imageUrl;
         }
-        // Check if the bean type contains any of our known origins
         const origin = Object.keys(defaultImages).find(key => 
             beanType.toLowerCase().includes(key.toLowerCase())
         );

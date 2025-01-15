@@ -4,6 +4,10 @@ import AddBrewForm from './AddBrewForm';
 import { api, type Brew, type NewBrew } from '../services/api';
 import '../styles/App.css';
 
+/**
+ * Main application component for BrewLog.
+ * Manages the state of coffee brews and provides functionality for CRUD operations.
+ */
 const App: React.FC = () => {
     const [brews, setBrews] = useState<Brew[]>([]);
     const [showForm, setShowForm] = useState(false);
@@ -14,6 +18,10 @@ const App: React.FC = () => {
         loadBrews();
     }, []);
 
+    /**
+     * Fetches all brews from the API and updates the local state.
+     * Handles errors by setting an error message in state.
+     */
     const loadBrews = async () => {
         try {
             const fetchedBrews = await api.getBrews();
@@ -27,14 +35,20 @@ const App: React.FC = () => {
         }
     };
 
+    /** Shows the add brew form modal */
     const handleAddBrewClick = () => {
         setShowForm(true);
     };
 
+    /** Hides the add brew form modal */
     const handleFormClose = () => {
         setShowForm(false);
     };
 
+    /**
+     * Creates a new brew entry via the API and updates the local state.
+     * @param newBrew - The new brew data to be created
+     */
     const handleAddBrew = async (newBrew: NewBrew) => {
         try {
             setIsLoading(true);
@@ -50,6 +64,10 @@ const App: React.FC = () => {
         }
     };
 
+    /**
+     * Deletes a brew entry by ID and updates the local state.
+     * @param id - The ID of the brew to delete
+     */
     const handleDeleteBrew = async (id: number) => {
         try {
             await api.deleteBrew(id);
