@@ -89,6 +89,7 @@ def test_read_brews(client: TestClient, mock_db):
     ]
     # Mock the chained query methods
     mock_query = mock_db.query.return_value
+    mock_query.order_by.return_value = mock_query
     mock_query.offset.return_value = mock_query
     mock_query.limit.return_value = mock_query
     mock_query.all.return_value = brews
@@ -99,9 +100,13 @@ def test_read_brews(client: TestClient, mock_db):
 
     assert len(data) == 3
     assert isinstance(data, list)
+    # Verify order_by was called with descending created_at
+    mock_db.query.return_value.order_by.assert_called_once()
+    order_by_arg = mock_db.query.return_value.order_by.call_args[0][0]
+    assert str(order_by_arg) == "brews.created_at DESC"
 
     # Validate all brews
-    for i, brew in enumerate(reversed(brews)):
+    for i, brew in enumerate(brews):
         assert data[i]["id"] == brew.id
         assert data[i]["bean_type"] == brew.bean_type
         assert data[i]["brew_type"] == brew.brew_type
