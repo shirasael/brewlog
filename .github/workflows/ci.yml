@@ -7,7 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  backend-tests:
+    name: Backend Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,9 +16,35 @@ jobs:
       - name: Build and test backend
         run: |
           docker build -t backend-tests ./backend
-          docker run --rm backend-tests sh -c "pip install flake8 black isort && flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics && black --check . && isort --check-only --diff . && pytest -v"
+          mkdir -p test-results
+          docker run --rm -v ${PWD}/test-results:/test-results backend-tests sh -c "pip install flake8 black isort pytest-json-report && flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics && black --check . && isort --check-only --diff . && pytest -v --json-report --json-report-file=/test-results/pytest.json"
+
+      - name: Publish Backend Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            test-results/pytest.json
+          report_individual_runs: true
+          check_name: "Backend Test Results"
+
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       
       - name: Build and test frontend
         run: |
           docker build -t frontend-tests ./frontend
-          docker run --rm -e CI=true frontend-tests
+          mkdir -p test-results
+          docker run --rm -v ${PWD}/test-results:/test-results -e CI=true frontend-tests sh -c "npm test -- --watchAll=false --json --outputFile=/test-results/jest.json"
+
+      - name: Publish Frontend Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            test-results/jest.json
+          report_individual_runs: true
+          check_name: "Frontend Test Results"
