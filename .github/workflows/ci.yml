@@ -17,14 +17,14 @@ jobs:
         run: |
           docker build -t backend-tests ./backend
           mkdir -p test-results
-          docker run --rm -v ${PWD}/test-results:/test-results backend-tests sh -c "pip install flake8 black isort pytest-json-report && flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics && black --check . && isort --check-only --diff . && pytest -v --json-report --json-report-file=/test-results/pytest.json"
+          docker run --rm -v ${PWD}/test-results:/test-results backend-tests sh -c "pip install flake8 black isort pytest-junit && flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics && black --check . && isort --check-only --diff . && pytest -v --junitxml=/test-results/pytest.xml"
 
       - name: Publish Backend Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: |
-            test-results/pytest.json
+            test-results/pytest.xml
           report_individual_runs: true
           check_name: "Backend Test Results"
 
@@ -38,13 +38,18 @@ jobs:
         run: |
           docker build -t frontend-tests ./frontend
           mkdir -p test-results
-          docker run --rm -v ${PWD}/test-results:/test-results -e CI=true frontend-tests sh -c "npm test -- --watchAll=false --json --outputFile=/test-results/jest.json"
+          docker run --rm -v ${PWD}/test-results:/test-results -e CI=true frontend-tests sh -c "npm test -- --watchAll=false --reporters=jest-junit --testResultsProcessor=jest-junit" \
+          -e JEST_JUNIT_OUTPUT_DIR=/test-results \
+          -e JEST_JUNIT_OUTPUT_NAME=jest.xml \
+          -e JEST_JUNIT_CLASSNAME="Frontend.{classname}" \
+          -e JEST_JUNIT_SUITE_NAME="{title}" \
+          -e JEST_JUNIT_ANCESTOR_SEPARATOR=" › "
 
       - name: Publish Frontend Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: |
-            test-results/jest.json
+            test-results/jest.xml
           report_individual_runs: true
           check_name: "Frontend Test Results"
