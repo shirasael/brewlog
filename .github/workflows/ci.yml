@@ -39,6 +39,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest flake8 black isort
+        pip install -e .  # Install the backend package in development mode
 
     - name: Lint backend code
       working-directory: backend
@@ -53,7 +54,7 @@ jobs:
     - name: Run backend tests
       working-directory: backend
       run: |
-        pytest
+        pytest -v  # Added -v for more verbose output
 
     # Frontend setup and checks
     - name: Install frontend dependencies
