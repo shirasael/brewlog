@@ -20,13 +20,11 @@ jobs:
           docker run --rm -v ${PWD}/test-results:/test-results backend-tests sh -c "pytest -v --junitxml=/test-results/pytest.xml"
 
       - name: Publish Backend Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          files: |
-            test-results/pytest.xml
-          report_individual_runs: true
-          check_name: "Backend Test Results"
+          name: Back End Test Results
+          path: test-results/pytest.xml
 
   frontend-tests:
     name: Frontend Tests
@@ -47,10 +45,11 @@ jobs:
               CI=true npm test -- --watchAll=false --reporters=jest-junit"  
 
       - name: Publish Frontend Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          files: |
-            test-results/jest.xml
-          report_individual_runs: true
-          check_name: "Frontend Test Results"
+          name: Front End Test Results
+          path: test-results/jest.xml
+
+
+
