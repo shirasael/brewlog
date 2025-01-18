@@ -58,13 +58,16 @@
 .imageContainer {
   flex: 0 0 200px;
   height: 200px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  border-radius: 6px;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  object-position: center;
 }
 
 .content {
@@ -72,6 +75,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 1rem;
 }
 
 .header {
@@ -152,17 +156,19 @@
     flex-direction: column;
     width: 100%;
     max-width: 100%;
-    padding: 16px;
+    padding: 0;
   }
 
   .imageContainer {
+    flex: none;
     width: 100%;
-    height: 200px;
+    height: 180px;
+    margin-bottom: 0;
+    border-radius: 0;
   }
 
   .content {
-    text-align: left;
-    width: 100%;
+    padding: 16px;
   }
 
   .header {

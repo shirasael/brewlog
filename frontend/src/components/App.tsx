@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import BrewList from "./BrewList";
 import AddBrewForm from "./AddBrewForm";
+import SearchBar from "./SearchBar";
 import { api, type Brew, type NewBrew } from "../services/api";
-import "../styles/App.css";
+import styles from "./App.module.css";
 
 /**
  * Main application component for BrewLog.
@@ -13,6 +14,7 @@ const App: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     loadBrews();
@@ -79,16 +81,34 @@ const App: React.FC = () => {
     }
   };
 
+  /**
+   * Filters brews based on the search query.
+   * Matches against bean type, brew type, and details.
+   */
+  const filteredBrews = brews.filter((brew) => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      brew.beanType.toLowerCase().includes(searchLower) ||
+      brew.brewType.toLowerCase().includes(searchLower) ||
+      (brew.details?.toLowerCase().includes(searchLower) ?? false)
+    );
+  });
+
   return (
-    <div className="container">
-      <h1>BrewLog: Your Coffee Journey</h1>
-      {error && <div className="error-message">{error}</div>}
+    <div className={styles.container}>
+      <h1 className={styles.appTitle}>BrewLog: Your Coffee Journey</h1>
+      {error && <div className={styles.errorMessage}>{error}</div>}
+      <SearchBar 
+        value={searchQuery}
+        onChange={setSearchQuery}
+        placeholder="Search by bean type, brew method, or details..."
+      />
       {isLoading ? (
-        <div className="loading">Loading your brews...</div>
+        <div className={styles.loading}>Loading your brews...</div>
       ) : (
-        <BrewList brews={brews} onDeleteBrew={handleDeleteBrew} />
+        <BrewList brews={filteredBrews} onDeleteBrew={handleDeleteBrew} />
       )}
-      <button className="add-brew-button" onClick={handleAddBrewClick}>
+      <button className={styles.addBrewButton} onClick={handleAddBrewClick}>
         +
       </button>
       {showForm && (
