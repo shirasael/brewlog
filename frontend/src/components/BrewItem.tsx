@@ -45,6 +45,24 @@ const defaultImages: { [key: string]: string } = {
     "https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
 };
 
+const TrashIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18" />
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+  </svg>
+);
+
 /**
  * Component for displaying individual brew records with swipe-to-delete functionality.
  * Includes brew details, image, and interactive delete confirmation.
@@ -200,7 +218,7 @@ const BrewItem: React.FC<BrewItemProps> = ({
                   onClick={handleDelete}
                   aria-label="Delete brew"
                 >
-                  ×
+                  <TrashIcon />
                 </button>
               </div>
             </div>
